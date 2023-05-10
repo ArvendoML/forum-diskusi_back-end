@@ -1,12 +1,5 @@
 require("dotenv").config();
 
-const dialOptions = {
-  ssl: {
-    require: true,
-    rejectUnauthorized: false,
-  },
-};
-
 module.exports = {
   development: {
     username: process.env.DB_USERNAME,

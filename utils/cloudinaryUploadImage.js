@@ -9,7 +9,7 @@ async function cloudinaryUploadImage(req, folderName) {
   await cloudinary.uploader
     .upload(file, { folder: folderName, fetch_format: "auto" })
     .then((result) => {
-      imageURL = result.url;
+      imageURL = result.secure_url;
       return imageURL;
     });
 
