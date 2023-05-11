@@ -6,10 +6,12 @@ const {
 } = require("../../error/userError");
 const { getTokenId } = require("../../middlewares/jwtAuth");
 const { getOneMatkulById } = require("../matkul/matkul");
+const bcrypt = require("bcryptjs");
 const db = require("../../models");
 const cloudinaryUploadImage = require("../../utils/cloudinaryUploadImage");
 
 const USERS_MODEL = db.tbl_users;
+const salt = process.env.SALT;
 
 // Get All User
 async function getAllUsers(req, res) {
@@ -60,7 +62,31 @@ async function getUserProfileById(req, res) {
 }
 
 // Change user password
-async function changeUserPassword(req, res) {}
+async function updateUserPassword(req, res) {
+  try {
+    const { user_newPassword } = req.body;
+    const userId = getTokenId(req);
+
+    let hashNewPassword = bcrypt.hashSync(user_newPassword + salt, 12);
+
+    const dataReq = {
+      user_password: hashNewPassword,
+      updatedAt: new Date(),
+    };
+
+    await USERS_MODEL.update(dataReq, {
+      where: {
+        id: userId,
+      },
+    }).then(() => {
+      res.status(200).json({
+        message: "Password Updated Succesfully!",
+      });
+    });
+  } catch (error) {
+    catchError(res, error);
+  }
+}
 
 // Update User Profile
 async function updateUserProfile(req, res) {
@@ -175,6 +201,7 @@ module.exports = {
   getUserProfile,
   getUserProfileById,
   updateUserProfile,
+  updateUserPassword,
   updateUserMatkul,
   deleteUserMatkul,
 };
