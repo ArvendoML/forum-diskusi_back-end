@@ -1,7 +1,7 @@
 "use strict";
 const { Model } = require("sequelize");
 module.exports = (sequelize, DataTypes) => {
-  class tbl_comments extends Model {
+  class tbl_notifications extends Model {
     /**
      * Helper method for defining associations.
      * This method is not a part of Sequelize lifecycle.
@@ -9,32 +9,34 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      this.belongsTo(models.tbl_comments, {
-        foreignKey: "id_discussion",
-        onDelete: "CASCADE",
-        hooks: true,
-      });
       this.belongsTo(models.tbl_users, {
         foreignKey: "id_user",
         onDelete: "CASCADE",
         hooks: true,
       });
+      this.belongsTo(models.tbl_mataKuliahs, {
+        foreignKey: "id_matkul",
+        onDelete: "CASCADE",
+        hooks: true,
+      });
+      this.belongsTo(models.tbl_discussions, {
+        foreignKey: "id_discussion",
+        onDelete: "CASCADE",
+        hooks: true,
+      });
     }
   }
-  tbl_comments.init(
+  tbl_notifications.init(
     {
-      comment_description: DataTypes.TEXT,
-      comment_user_like: DataTypes.ARRAY(DataTypes.INTEGER),
-      comment_user_dislike: DataTypes.ARRAY(DataTypes.INTEGER),
-      reply_from_user: DataTypes.TEXT,
-      reply_from_comment_desc: DataTypes.TEXT,
-      id_discussion: DataTypes.INTEGER,
+      notif_description: DataTypes.TEXT,
       id_user: DataTypes.INTEGER,
+      id_matkul: DataTypes.INTEGER,
+      id_discussion: DataTypes.INTEGER,
     },
     {
       sequelize,
-      modelName: "tbl_comments",
+      modelName: "tbl_notifications",
     }
   );
-  return tbl_comments;
+  return tbl_notifications;
 };

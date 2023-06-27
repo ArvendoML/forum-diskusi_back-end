@@ -49,7 +49,7 @@ async function createComment(req, res) {
   try {
     const discussionId = parseInt(req.params.idDiscussion);
     const userId = getTokenId(req);
-    const { comment_description } = req.body;
+    const { comment_description, reply_from_user, reply_from_comment_desc } = req.body;
 
     // Check if discussion exists
     const discussion = await getOneDiscussionById(discussionId);
@@ -59,6 +59,8 @@ async function createComment(req, res) {
       comment_description: comment_description,
       id_discussion: discussionId,
       id_user: userId,
+      reply_from_user: reply_from_user || null,
+      reply_from_comment_desc: reply_from_comment_desc || null,
       createdAt: new Date(),
       updatedAt: new Date(),
     };

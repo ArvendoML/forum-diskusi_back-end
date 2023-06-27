@@ -10,6 +10,7 @@ var usersRouter = require("./routes/users");
 var matkulRouter = require("./routes/matkul");
 var discussionsRouter = require("./routes/discussions");
 var commentsRouter = require("./routes/comments");
+var notificationsRouter = require("./routes/notifications");
 
 var app = express();
 
@@ -37,5 +38,6 @@ app.use("/api/users", usersRouter);
 app.use("/api/matkul", matkulRouter);
 app.use("/api/discussions", discussionsRouter);
 app.use("/api/discussions/comments", commentsRouter);
+app.use("/api/notifications", notificationsRouter);
 
 module.exports = app;

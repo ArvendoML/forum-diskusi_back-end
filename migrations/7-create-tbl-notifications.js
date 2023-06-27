@@ -1,21 +1,16 @@
 "use strict";
 module.exports = {
   async up(queryInterface, Sequelize) {
-    await queryInterface.createTable("tbl_comments", {
+    await queryInterface.createTable("tbl_notifications", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.INTEGER,
       },
-      id_discussion: {
+      notif_description: {
         allowNull: false,
-        type: Sequelize.INTEGER,
-        onDelete: "CASCADE",
-        references: {
-          model: "tbl_discussions",
-          key: "id",
-        },
+        type: Sequelize.TEXT,
       },
       id_user: {
         allowNull: false,
@@ -26,21 +21,23 @@ module.exports = {
           key: "id",
         },
       },
-      comment_description: {
+      id_matkul: {
         allowNull: false,
-        type: Sequelize.TEXT,
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
+        references: {
+          model: "tbl_mataKuliahs",
+          key: "id",
+        },
       },
-      comment_user_like: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
-      },
-      comment_user_dislike: {
-        type: Sequelize.ARRAY(Sequelize.INTEGER),
-      },
-      reply_from_user: {
-        type: Sequelize.TEXT,
-      },
-      reply_from_comment_desc: {
-        type: Sequelize.TEXT,
+      id_discussion: {
+        allowNull: false,
+        type: Sequelize.INTEGER,
+        onDelete: "CASCADE",
+        references: {
+          model: "tbl_discussions",
+          key: "id",
+        },
       },
       createdAt: {
         allowNull: false,
@@ -53,6 +50,6 @@ module.exports = {
     });
   },
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable("tbl_comments");
+    await queryInterface.dropTable("tbl_notifications");
   },
 };
